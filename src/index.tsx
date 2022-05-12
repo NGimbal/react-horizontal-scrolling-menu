@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { LegacyRef } from 'react';
 
 import './styles.css';
 
@@ -127,27 +127,30 @@ export interface Props {
 
   https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu
  */
-function ScrollMenu({
-  LeftArrow: _LeftArrow,
-  RightArrow: _RightArrow,
-  children,
-  transitionDuration = 500,
-  transitionEase,
-  transitionBehavior,
-  onInit = (): void => void 0,
-  onUpdate = (): void => void 0,
-  onMouseDown,
-  onMouseUp,
-  onMouseMove,
-  onScroll = (): void => void 0,
-  onWheel = (): void => void 0,
-  options = defaultObserverOptions,
-  scrollContainerClassName = '',
-  itemClassName = '',
-  separatorClassName = '',
-  wrapperClassName = '',
-  apiRef = { current: {} as publicApiType },
-}: Props): JSX.Element {
+const ScrollMenu = React.forwardRef(function ScrollMenu(
+  {
+    LeftArrow: _LeftArrow,
+    RightArrow: _RightArrow,
+    children,
+    transitionDuration = 500,
+    transitionEase,
+    transitionBehavior,
+    onInit = (): void => void 0,
+    onUpdate = (): void => void 0,
+    onMouseDown,
+    onMouseUp,
+    onMouseMove,
+    onScroll = (): void => void 0,
+    onWheel = (): void => void 0,
+    options = defaultObserverOptions,
+    scrollContainerClassName = '',
+    itemClassName = '',
+    separatorClassName = '',
+    wrapperClassName = '',
+    apiRef = { current: {} as publicApiType },
+  }: Props,
+  ref: LegacyRef<HTMLDivElement> | undefined
+) {
   const LeftArrow = getElementOrConstructor(_LeftArrow);
   const RightArrow = getElementOrConstructor(_RightArrow);
 
@@ -243,6 +246,7 @@ function ScrollMenu({
       onMouseDown={onMouseDown?.(context)}
       onMouseUp={onMouseUp?.(context)}
       onMouseMove={onMouseMove?.(context)}
+      ref={ref}
     >
       <VisibilityContext.Provider value={context}>
         {LeftArrow}
@@ -263,6 +267,6 @@ function ScrollMenu({
       </VisibilityContext.Provider>
     </div>
   );
-}
+});
 
 export { constants, getItemsPos, slidingWindow, ScrollMenu, VisibilityContext };
